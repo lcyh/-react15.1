@@ -19,3 +19,9 @@
   - 节点的更新
   - key 处理 尽量复用老节点
 - 简单实现 hooks
+
+- React.createElement(type,config,children)
+  - @babel/preset-react
+  - 1.讲 react 的 jsx 语法转换成 React.createElement()
+  - 2.每个标签或者文本都讲转换成 React.createElement(),返回的是 vnode 对象 {\$\$typeof,ref,key,props,\_self,\_source}
+  - 3.children 如果是一个的话，props.children 就是一个对象;否则是一个数组
