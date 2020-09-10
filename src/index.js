@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "./react";
 import ReactDOM from "react-dom";
 
 /* class App extends Component {
@@ -40,10 +40,9 @@ class Child extends Component {
   render() {
     console.log("this.props.children", this.props.children);
     const mappedChildren = React.Children.map(this.props.children, function (
-      item,
-      index
+      item
     ) {
-      return [item];
+      return [item, item];
     });
     console.log("mappedChildren", mappedChildren);
     return <ul>{mappedChildren}</ul>;
@@ -53,10 +52,13 @@ class App extends Component {
   render() {
     return (
       <Child>
+        hello
+        <span>121</span>
         {[<p>A</p>, <p key="keyB">B</p>]}
         {[<p>C</p>, <p key="keyD">D</p>]}
       </Child>
     );
   }
 }
+
 ReactDOM.render(<App />, document.getElementById("root"));
