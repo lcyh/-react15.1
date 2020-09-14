@@ -46,6 +46,8 @@ function getSyntheticEvent(nativeEvent) {
   if (!syntheticEvent) {
     syntheticEvent = { persist };
   }
+  syntheticEvent.nativeEvent = nativeEvent;
+  syntheticEvent.currentTarget = nativeEvent.target;
   // 这里是对原生事件对象的属性和方法拷贝给syntheticEvent
   for (let key in nativeEvent) {
     if (typeof nativeEvent[key] === "function") {
