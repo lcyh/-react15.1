@@ -1,4 +1,4 @@
-import { REACT_ELEMENT_TYPE } from "../shared/ReactSymbols";
+import { ELEMENT } from "./constants";
 
 function mapChildren(children, mapFunction, context) {
   const result = [];
@@ -25,7 +25,7 @@ function traverseAllChildren(
   if (
     type === "string" ||
     type === "number" ||
-    (type === "object" && children.$$typeof === REACT_ELEMENT_TYPE)
+    (type === "object" && children.$$typeof === ELEMENT)
   ) {
     mapSingleChildIntoContext(traverseContext, children);
   } else if (Array.isArray(children)) {

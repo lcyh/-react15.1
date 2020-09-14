@@ -1,64 +1,36 @@
 import React, { Component } from "./react";
-import ReactDOM from "react-dom";
+import ReactDOM from "./react-dom";
 
-/* class App extends Component {
-  render() {
-    return (
-      <div>
-        <p>1</p>
-        <button>+</button>
-      </div>
-    )
+class ClassCounter extends Component {
+  constructor(props) {
+    super(props); //this.props = props;
   }
-}
-// let element = <App />; */
-// class App extends Component {
-//   static defaultProps = {
-//     name: "app",
-//   };
-//   render() {
-//     let returnElement = React.createElement(
-//       "div",
-//       { title: this.props.name + "_" + this.props.title },
-//       React.createElement("p", { key: "p_key" }, "1"),
-//       React.createElement("button", { key: "button_key" }, "+")
-//     );
-//     console.log("returnElement", returnElement);
-//     return returnElement;
-//   }
-// }
-// debugger;
-// let element = React.createElement(App, { title: "zhufeng" });
-/* let instance = new App();
-  let renderedElement = instance.render();
-   */
-// @babel/preset-react
-// 1.讲reactjsx语法转换成 React.createElement()
-// 2.每个标签或者文本都讲转换成  React.createElement(),返回的是 vnode对象 {$$typeof,ref,key,props,_self,_source,}
-// React.children.map()
-class Child extends Component {
   render() {
-    console.log("this.props.children", this.props.children);
-    const mappedChildren = React.Children.map(this.props.children, function (
-      item
-    ) {
-      return [item, item];
-    });
-    console.log("mappedChildren", mappedChildren);
-    return <ul>{mappedChildren}</ul>;
-  }
-}
-class App extends Component {
-  render() {
-    return (
-      <Child>
-        hello
-        <span>121</span>
-        {[<p>A</p>, <p key="keyB">B</p>]}
-        {[<p>C</p>, <p key="keyD">D</p>]}
-      </Child>
+    //render 只会返回一个顶级元素
+    let returnELement = React.createElement(
+      "div",
+      { id: "counter" },
+      React.createElement(
+        "button",
+        { id: "button", style: { color: "red" }, onClick: this.handleClick },
+        "这是button按钮"
+      )
     );
+    return returnELement;
   }
 }
-
-ReactDOM.render(<App />, document.getElementById("root"));
+// function FunctionCounter(props) {
+//   return React.createElement(
+//     "div",
+//     { id: props.id + "FunctionCounter" },
+//     "hello"
+//   );
+// }
+let element1 = React.createElement(ClassCounter);
+console.log("element1", element1);
+///React元素=虚拟DOM = {$$typeof:ELEMENT,type:'div'}
+ReactDOM.render(element1, document.getElementById("root"));
+/**
+ * 1.如何渲染类组件和函数组件
+ * 2.如果实现异步的setState
+ */
