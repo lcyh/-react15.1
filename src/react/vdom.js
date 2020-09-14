@@ -13,10 +13,10 @@ export function createDOM(element) {
   if (!$$typeof) {
     // 传的是文本或数字
     dom = document.createTextNode(element);
-  } else if ($$typeof == TEXT) {
+  } else if ($$typeof === TEXT) {
     //element是纯数字或字符串
     dom = document.createTextNode(element.content); //{$$typeof:TEXT,type:TEXT,content:'hello'}
-  } else if ($$typeof == ELEMENT) {
+  } else if ($$typeof === ELEMENT) {
     // 如果此虚拟DOM是原生dom节点
     dom = createNativeDOM(element);
   } else if ($$typeof === FUNCTION_COMPONENT) {
