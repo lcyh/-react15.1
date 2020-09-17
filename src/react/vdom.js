@@ -5,6 +5,25 @@ import {
   FUNCTION_COMPONENT,
   CLASS_COMPONENT,
 } from "./constants";
+export function compareTwoElements(oldRenderElement, newRenderElement) {
+  oldRenderElement = onlyOne(oldRenderElement);
+  newRenderElement = onlyOne(newRenderElement);
+  let currentDOM = oldRenderElement.dom;
+  let currentElement = oldRenderElement;
+  if (newRenderElement == null) {
+    currentDOM.parentNode.removeChild(currentDOM);
+    currentDOM = null;
+  } else if (oldRenderElement.type !== newRenderElement.type) {
+    let newDOM = createDOM(newRenderElement);
+    currentDOM.parentNode.replaceChild(newDOM, currentDOM);
+    currentElement = newRenderElement;
+  } else {
+    let newDOM = createDOM(newRenderElement);
+    currentDOM.parentNode.replaceChild(newDOM, currentDOM);
+    currentElement = newRenderElement;
+  }
+  return currentElement;
+}
 //根据$$typeof类型创建不同类型的dom元素
 export function createDOM(element) {
   element = onlyOne(element);

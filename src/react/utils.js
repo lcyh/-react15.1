@@ -42,3 +42,7 @@ function setProp(dom, key, value) {
     dom.setAttribute(key, value);
   }
 }
+
+export function isFunction(obj) {
+  return typeof obj === "function";
+}
