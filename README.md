@@ -47,3 +47,13 @@
     - 如果新的虚拟 DOM 节点为 NULL。则要干掉老节点
     - 比较新老元素的 type 类型，如果节点类型不同，则需要创建新的 DOM 节点，然后把老 DOM 节点替换掉
     - 新老节点都有，并且类型一样。 div span 就要进行 dom diff 深度比较 比较他们的属性和他们的子节点，而且还要尽可能复用老节点
+- dom-diff
+  - 1.通过 lastIndex 指针，指向需要移动的可复用的老 DOM 元素，初始值为 0 或者-1
+  - 2.lastIndex=Math.max(\_mountIndex,lastIndex),lastIndex 取得是上次的 lastIndex 和\_mountIndex 可复用的当前老 DOM 元素的索引值；
+  - 3.\_mountIndx 就是当前可复用的老 DOM 元素的索引
+- dom-diff 规则
+  - 1.同层比较，深度优先遍历子节点，通过 diffQueue 打补丁，收集 MOVE,REMOVE,INSERT 的 DOM 元素，先删除 MOVE，REMOVE,在插入 INSERT 新增加的 DOM 元素
+  - 2.可复用指的是：新老元素的 key 和 type(元素类型，div,span);
+  - 3.新的 DOM 列表里找到老 DOM 列表里的可复用的元素时，老 DOMD 元素的\_mountIndex 和 lastIndex 比较，
+    - 如果\_mountIndex>=lastIndex，此时老 DOM 元素不用动，lastIndex=Math.max(\_mountIndex,lastIndex)，lastIndex 此时是老元素的索引值了,可复用的老元素的索引就是新元素的索引了
+    - 如果\_mountIndex<lastIndex，说明老 DOM 元素需要向右移动，并且 lastIndex=Math.max(\_mountIndex,lastIndex),可复用老的 DOM 元素的索引\_mountIndex=新 DOM 元素的索引
