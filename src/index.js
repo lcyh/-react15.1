@@ -1,6 +1,26 @@
 import React, { Component } from "./react";
 import ReactDOM from "./react-dom";
-
+// class App extends Component {
+//   render() {
+//     return  React.createElement(
+//       "div",
+//       null,
+//        React.createElement(
+//         "ul",
+//         null,
+//          React.createElement("li", {
+//           key: "A",
+//         }),
+//          React.createElement("li", {
+//           key: "A",
+//         }),
+//          React.createElement("li", {
+//           key: "A",
+//         })
+//       )
+//     );
+//   }
+// }
 class ClassCounter extends Component {
   constructor(props) {
     super(props); //this.props = props;
@@ -20,17 +40,21 @@ class ClassCounter extends Component {
   };
   render() {
     //render 只会返回一个顶级元素
-    let returnELement = React.createElement(
-      "div",
-      { id: "counter" + this.state.number },
-      React.createElement(
-        "button",
-        { id: "button", style: { color: "red" }, onClick: this.handleClick },
-        "这是button按钮"
-      )
+    // let returnELement = React.createElement(
+    //   "div",
+    //   { id: "counter" + this.state.number },
+    //   React.createElement(
+    //     "button",
+    //     { id: "button", style: { color: "red" }, onClick: this.handleClick },
+    //     "这是button按钮"
+    //   )
+    // );
+    return (
+      <div id={"counter" + this.state.number}>
+        <p>{this.state.number}</p>
+        <button onClick={this.handleClick}>+</button>
+      </div>
     );
-    console.log("returnELement", returnELement);
-    return returnELement;
   }
 }
 // function FunctionCounter(props) {

@@ -44,7 +44,7 @@ function persist() {
 //
 function getSyntheticEvent(nativeEvent) {
   if (!syntheticEvent) {
-    syntheticEvent = { persist };
+    persist();
   }
   syntheticEvent.nativeEvent = nativeEvent;
   syntheticEvent.currentTarget = nativeEvent.target;

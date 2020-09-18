@@ -10,9 +10,11 @@ export let updateQueue = {
   batchUpdate() {
     const { updaters } = this;
     let updater;
+    this.isPending = true; //进入批量更新模式
     while ((updater = updaters.pop())) {
       updater.updateComponent(); //更新脏组件
     }
+    this.isPending = false; //改为非批量更新
   },
 };
 class Updater {
@@ -26,6 +28,7 @@ class Updater {
     this.emitUpdate();
   }
   emitUpdate(nextProps) {
+    this.nextProps = nextProps;
     if (nextProps || !updateQueue.isPending) {
       //如果有新属性或立即更新
       this.updateComponent();
@@ -61,11 +64,14 @@ class Updater {
 }
 // 判断是否需要更新
 function shouldUpdata(componentInstance, nextProps, nextState) {
-  const { shouldComponentUpdate } = componentInstance;
+  //判断是否要更新
+  let scu =
+    componentInstance.shouldComponentUpdate &&
+    !componentInstance.shouldComponentUpdate(nextProps, nextState);
   componentInstance.props = nextProps;
   componentInstance.state = nextState;
-  if (shouldComponentUpdate && !shouldComponentUpdate(nextProps, nextState)) {
-    return false;
+  if (scu) {
+    return false; // 不更新
   }
   componentInstance.forceUpdate(); //让组件强行更新
 }
@@ -73,6 +79,8 @@ class Component {
   constructor(props) {
     this.props = props;
     this.$updater = new Updater(this); // 一个组件实例就是一个更新器updater
+    this.state = {};
+    this.nextProps = null;
   }
   setState(partialState) {
     this.$updater.addState(partialState);

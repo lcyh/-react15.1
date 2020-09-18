@@ -27,6 +27,23 @@ export function setProps(dom, props) {
     }
   }
 }
+export function patchProps(dom, oldProps, newProps) {
+  for (let key in oldProps) {
+    // 这里只比较自身的属性，子节点不比较
+    if (key !== "children") {
+      // 新属性里没有之前的老属性，此时就删掉之前的老属性
+      if (!newProps.hasOwnProperty(key)) {
+        dom.removeAttribute(key);
+      }
+    }
+  }
+  for (let key in newProps) {
+    if (key !== "children") {
+      //此处只处理自己的DOM属性，不处理children节点
+      setProp(dom, key, newProps[key]);
+    }
+  }
+}
 function setProp(dom, key, value) {
   //如果是以on开头的，说明是合成事件
   if (/^on/.test(key)) {
