@@ -39,12 +39,12 @@ function updateElement(oldElement, newElement) {
   } else if (oldElement.$$typeof === ELEMENT) {
     //如果是元素类型 span div p
     // 先更新父节点的属性，再比较更新子节点
+    updateDOMProperties(currentDOM, oldElement.props, newElement.props);
     updateChildrenElements(
       currentDOM,
       oldElement.props.children,
       newElement.props.children
     );
-    updateDOMProperties(currentDOM, oldElement.props, newElement.props);
     //会把newElement的props赋给oldElement.props
     //如果当前是element元素。会把newElement.props(包括 children) 赋给oldElement.props
     oldElement.props = newElement.props; //赋完值之后，老的虚拟DOM就没有，使用新虚拟DOM了元素

@@ -19,7 +19,7 @@
   - 节点的更新
   - key 处理 尽量复用老节点
 - 简单实现 hooks
-
+  ### React 各个方法解释说明
 - React.createElement(type,config,children)
   - @babel/preset-react
   - 1.讲 react 的 jsx 语法转换成 React.createElement()
@@ -51,7 +51,9 @@
   - 1.通过 lastIndex 指针，指向需要移动的可复用的老 DOM 元素，初始值为 0 或者-1
   - 2.lastIndex=Math.max(\_mountIndex,lastIndex),lastIndex 取得是上次的 lastIndex 和\_mountIndex 可复用的当前老 DOM 元素的索引值；
   - 3.\_mountIndx 就是当前可复用的老 DOM 元素的索引
-- dom-diff 规则
+  - 4.新老虚拟 DOM 节点的 key 和 type 有一个不一样就不能复用老节点，必须两个都一样
+  - 5.可以先比较当前虚拟 DOM 自身的 props 属性，在比较 children 子节点的属性,或者先比较子节点属性在比较父节点(自身属性)；
+- dom-diff 规则，主要 diff 的是 children 子节点
   - 1.同层比较，深度优先遍历子节点，通过 diffQueue 打补丁，收集 MOVE,REMOVE,INSERT 的 DOM 元素，先删除 MOVE，REMOVE,在插入 INSERT 新增加的 DOM 元素
   - 2.可复用指的是：新老元素的 key 和 type(元素类型，div,span);
   - 3.新的 DOM 列表里找到老 DOM 列表里的可复用的元素时，老 DOMD 元素的\_mountIndex 和 lastIndex 比较，
