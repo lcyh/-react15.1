@@ -1,74 +1,194 @@
 import React, { Component } from "./react";
 import ReactDOM from "./react-dom";
-// class App extends Component {
-//   render() {
-//     return  React.createElement(
-//       "div",
-//       null,
-//        React.createElement(
-//         "ul",
-//         null,
-//          React.createElement("li", {
-//           key: "A",
-//         }),
-//          React.createElement("li", {
-//           key: "A",
-//         }),
-//          React.createElement("li", {
-//           key: "A",
-//         })
-//       )
-//     );
-//   }
-// }
-class ClassCounter extends Component {
-  constructor(props) {
-    super(props); //this.props = props;
-    this.state = {
-      number: 0,
-    };
-  }
-  handleClick = (event) => {
-    this.setState({ number: this.state.number + 1 });
-    // console.log("点击了", event);
-    // console.log(event.persist);
-    // react合成事件里自己添加的方法，解决在异步事件(setTimeout,setInterval)中事件对象持久化，不丢失
-    // event.persist();
-    // setInterval(() => {
-    //   console.log("定时器-event", event);
-    // }, 1000);
-  };
+let ThemeContext = React.createContext(null);
+let root = document.querySelector("#root");
+class Header extends Component {
+  static contextType = ThemeContext;
   render() {
-    //render 只会返回一个顶级元素
-    // let returnELement = React.createElement(
-    //   "div",
-    //   { id: "counter" + this.state.number },
-    //   React.createElement(
-    //     "button",
-    //     { id: "button", style: { color: "red" }, onClick: this.handleClick },
-    //     "这是button按钮"
-    //   )
-    // );
     return (
-      <div id={"counter" + this.state.number}>
-        <p>{this.state.number}</p>
-        <button onClick={this.handleClick}>+</button>
+      <div
+        style={{ border: `5px solid ${this.context.color}`, padding: "5px" }}
+      >
+        header
+        <Title />
       </div>
     );
   }
 }
-// function FunctionCounter(props) {
-//   return React.createElement(
-//     "div",
-//     { id: props.id + "FunctionCounter" },
-//     "hello"
-//   );
-// }
-let element1 = React.createElement(ClassCounter);
-// console.log("element1", element1);
-///React元素=虚拟DOM = {$$typeof:ELEMENT,type:'div'}
-ReactDOM.render(element1, document.getElementById("root"));
-/**
- * 1.如何渲染类组件和函数组件
- * 2.如果实现异步的setState
- */
+class Title extends Component {
+  static contextType = ThemeContext;
+  render() {
+    return (
+      <div style={{ border: `5px solid ${this.context.color}` }}>title</div>
+    );
+  }
+}
+class Main extends Component {
+  static contextType = ThemeContext;
+  render() {
+    return (
+      <div
+        style={{
+          border: `5px solid ${this.context.color}`,
+          margin: "5px",
+          padding: "5px",
+        }}
+      >
+        main
+        <Content />
+      </div>
+    );
+  }
+}
+class Content extends Component {
+  static contextType = ThemeContext;
+  render() {
+    return (
+      <div
+        style={{ border: `5px solid ${this.context.color}`, padding: "5px" }}
+      >
+        Content
+        <button
+          onClick={() => this.context.changeColor("red")}
+          style={{ color: "red" }}
+        >
+          红色
+        </button>
+        <button
+          onClick={() => this.context.changeColor("green")}
+          style={{ color: "green" }}
+        >
+          绿色
+        </button>
+      </div>
+    );
+  }
+}
+
+class ClassPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { color: "red" };
+  }
+  changeColor = (color) => {
+    this.setState({ color });
+  };
+  render() {
+    let contextVal = { changeColor: this.changeColor, color: this.state.color };
+    return (
+      <ThemeContext.Provider value={contextVal}>
+        <div
+          style={{
+            margin: "10px",
+            border: `5px solid ${this.state.color}`,
+            padding: "5px",
+            width: "200px",
+          }}
+        >
+          page
+          <Header />
+          <Main />
+        </div>
+      </ThemeContext.Provider>
+    );
+  }
+}
+class FunctionHeader extends Component {
+  render() {
+    return (
+      <ThemeContext.Consumer>
+        {(value) => (
+          <div style={{ border: `5px solid ${value.color}`, padding: "5px" }}>
+            header
+            <FunctionTitle />
+          </div>
+        )}
+      </ThemeContext.Consumer>
+    );
+  }
+}
+class FunctionTitle extends Component {
+  render() {
+    return (
+      <ThemeContext.Consumer>
+        {(value) => (
+          <div style={{ border: `5px solid ${value.color}` }}>title</div>
+        )}
+      </ThemeContext.Consumer>
+    );
+  }
+}
+class FunctionMain extends Component {
+  render() {
+    return (
+      <ThemeContext.Consumer>
+        {(value) => (
+          <div
+            style={{
+              border: `5px solid ${value.color}`,
+              margin: "5px",
+              padding: "5px",
+            }}
+          >
+            main
+            <FunctionContent />
+          </div>
+        )}
+      </ThemeContext.Consumer>
+    );
+  }
+}
+class FunctionContent extends Component {
+  render() {
+    return (
+      <ThemeContext.Consumer>
+        {(value) => (
+          <div style={{ border: `5px solid ${value.color}`, padding: "5px" }}>
+            Content
+            <button
+              onClick={() => value.changeColor("red")}
+              style={{ color: "red" }}
+            >
+              红色
+            </button>
+            <button
+              onClick={() => value.changeColor("green")}
+              style={{ color: "green" }}
+            >
+              绿色
+            </button>
+          </div>
+        )}
+      </ThemeContext.Consumer>
+    );
+  }
+}
+class FunctionPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { color: "red" };
+  }
+  changeColor = (color) => {
+    this.setState({ color });
+  };
+  render() {
+    let contextVal = { changeColor: this.changeColor, color: this.state.color };
+    return (
+      <ThemeContext.Provider value={contextVal}>
+        <div
+          style={{
+            margin: "10px",
+            border: `5px solid ${this.state.color}`,
+            padding: "5px",
+            width: "200px",
+          }}
+        >
+          page
+          <FunctionHeader />
+          <FunctionMain />
+        </div>
+      </ThemeContext.Provider>
+    );
+  }
+}
+ReactDOM.render(<FunctionPage />, root);

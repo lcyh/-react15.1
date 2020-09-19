@@ -59,3 +59,12 @@
   - 3.新的 DOM 列表里找到老 DOM 列表里的可复用的元素时，老 DOMD 元素的\_mountIndex 和 lastIndex 比较，
     - 如果\_mountIndex>=lastIndex，此时老 DOM 元素不用动，lastIndex=Math.max(\_mountIndex,lastIndex)，lastIndex 此时是老元素的索引值了,可复用的老元素的索引就是新元素的索引了
     - 如果\_mountIndex<lastIndex，说明老 DOM 元素需要向右移动，并且 lastIndex=Math.max(\_mountIndex,lastIndex),可复用老的 DOM 元素的索引\_mountIndex=新 DOM 元素的索引
+- React.createRef
+- 添加生命周期
+  - getDreviedStateFromProps
+  - getSnapshotBeforeUpdate
+  - componentDidUpdate
+  - componentWillReceiveProps
+- let ThemeContext= React.createContext();返回{ Provider,Consumer}
+  - <ThemeContext.Provider> <ThemeContext.Provider/> --><<ThemeContext.Consumer></ThemeContext.Consumer>
+  - <ThemeContext.Provider> <ThemeContext.Provider/> -->static contextType=ThemeContext --> this.context

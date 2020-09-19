@@ -280,8 +280,23 @@ function createFunctionComponentDOM(element) {
 function createClassComponentDOM(element) {
   let { type, ref, props } = element;
   let componentInstance = new type(props);
+  if (type.getDerivedStateFromProps) {
+    let newState = type.getDerivedStateFromProps(
+      props,
+      componentInstance.state
+    );
+    if (newState) {
+      componentInstance.state = { ...componentInstance.state, ...newState };
+    }
+  }
+  if (componentInstance.componentDidMount) {
+    componentInstance.componentDidMount();
+  }
   if (ref) {
     ref.current = componentInstance;
+  }
+  if (componentInstance.contextType) {
+    componentInstance.context = componentInstance.contextType.Provider.value;
   }
   // 当类组件创建后，在类组件的虚拟dom对象上添加componentInstance属性，指向类组件实例
   element.componentInstance = componentInstance; //以后组件运行当中componentInstance是不变的
