@@ -191,4 +191,29 @@ class FunctionPage extends Component {
     );
   }
 }
-ReactDOM.render(<FunctionPage />, root);
+
+class Counter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      number: 0,
+    };
+  }
+  handleClick = (event) => {
+    this.setState({ number: this.state.number + 1 });
+    console.log("number", this.state.number);
+    console.log("event", event);
+    this.setState((preState) => {
+      return { name: "lc" };
+    });
+  };
+  render() {
+    return (
+      <h1>
+        <div onClick={this.handleClick}>点击Number:{this.state.number}</div>
+      </h1>
+    );
+  }
+}
+let element = React.createElement(Counter, {});
+ReactDOM.render(element, root);

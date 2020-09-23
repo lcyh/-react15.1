@@ -55,7 +55,9 @@
   - 5.可以先比较当前虚拟 DOM 自身的 props 属性，在比较 children 子节点的属性,或者先比较子节点属性在比较父节点(自身属性)；
 - dom-diff 规则，主要 diff 的是 children 子节点
   - 1.同层比较，深度优先遍历子节点，通过 diffQueue 打补丁，收集 MOVE,REMOVE,INSERT 的 DOM 元素，先删除 MOVE，REMOVE,在插入 INSERT 新增加的 DOM 元素
-  - 2.可复用指的是：新老元素的 key 和 type(元素类型，div,span);
+  - 2.可复用指的是：新老元素的 key 和 type(元素类型，div,span)都相同;
+    - a.key 和 type 都相同表明可以复用老虚拟 DOM 节点
+    - b.此时比较新老虚拟节点的自身的 props 和 props.children 的所有属性，递归；
   - 3.新的 DOM 列表里找到老 DOM 列表里的可复用的元素时，老 DOMD 元素的\_mountIndex 和 lastIndex 比较，
     - 如果\_mountIndex>=lastIndex，此时老 DOM 元素不用动，lastIndex=Math.max(\_mountIndex,lastIndex)，lastIndex 此时是老元素的索引值了,可复用的老元素的索引就是新元素的索引了
     - 如果\_mountIndex<lastIndex，说明老 DOM 元素需要向右移动，并且 lastIndex=Math.max(\_mountIndex,lastIndex),可复用老的 DOM 元素的索引\_mountIndex=新 DOM 元素的索引

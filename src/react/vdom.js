@@ -179,7 +179,9 @@ function getNewChildrenElementsMap(
       let oldChildElement = oldChildrenElementsMap[newKey];
       // 子节点的key相同,type类型也相同，type指的是 div,span元素类型
       if (canDeepCompare(oldChildElement, newChildElement)) {
-        //在此处递归子节点
+        //在此处递归子节点，
+        // 1.此时新虚拟DOM节点的属性赋值给了 旧虚拟DOM节点；
+        // 2.新虚拟DOM节点的children也替换调了旧虚拟DOM节点的children即其属性
         updateElement(oldChildElement, newChildElement);
         newChildrenElements[i] = oldChildElement; // 复用老节点
       }
